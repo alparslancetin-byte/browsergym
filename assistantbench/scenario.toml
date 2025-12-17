@@ -1,0 +1,46 @@
+[scenario]
+name = "browsergym_assistantbench"
+description = "BrowserGym AssistantBench benchmark scenario"
+version = "1.0.0"
+
+# Green Agent
+[[agents]]
+name = "Green Agent"
+card = "green_agent/green_agent_card.toml"
+launcher_host = "localhost"
+launcher_port = 9114
+agent_host = "localhost"
+agent_port = 9115
+model_type = "openai"
+model_name = "gpt-4o-mini"
+tools = ["green_agent/tools.py"] # <-- TOOLS BELONG TO GREEN
+mcp_servers = ["http://localhost:9001/sse"]
+is_green = true
+
+[[agents.participant_requirements]]
+  role = "blue_agent"
+  name = "AssistantBench Web Agent"
+  required = true
+  participant_agent = "White Agent"
+
+# White Agent
+[[agents]]
+name = "White Agent"
+card = "white_agent/white_agent_card.toml"
+launcher_host = "localhost"
+launcher_port = 9110
+agent_host = "localhost"
+agent_port = 9111
+model_type = "openai"
+model_name = "gpt-4o-mini"
+# NO TOOLS
+mcp_servers = ["http://localhost:9001/sse"]
+
+[launch]
+mode = "separate"
+tmux_session_name = "agentbeats-browsergym-ab"
+startup_interval = 5
+wait_for_services = true
+
+[launch.timeouts]
+agent_turn = 120
