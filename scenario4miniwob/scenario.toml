@@ -1,0 +1,46 @@
+[scenario]  
+name = "browsergym_miniwob"  
+description = "BrowserGym MiniWob benchmark scenario"  
+version = "1.0.0"
+
+# Green Agent
+[[agents]]
+name = "Green Agent"
+card = "green_agent/green_agent_card.toml"
+launcher_host = "localhost"
+launcher_port = 9114
+agent_host = "localhost"
+agent_port = 9115
+#agent_port = 9000
+model_type = "openai"
+model_name = "gpt-4o-mini"
+tools = ["green_agent/tools.py"]
+mcp_servers = ["http://localhost:9001/sse"]
+is_green = true
+
+[[agents.participant_requirements]]
+#  role = "white_agent"
+  role = "blue_agent"
+  name = "MiniWob Task Solver"
+  required = true
+  participant_agent = "White Agent"
+
+# White Agent
+[[agents]]
+name = "White Agent"
+card = "white_agent/white_agent_card.toml"
+launcher_host = "localhost"
+launcher_port = 9110
+agent_host = "localhost"
+agent_port = 9111
+#agent_port = 8000
+model_type = "openai"
+model_name = "gpt-4o-mini"
+tools = []
+mcp_servers = ["http://localhost:9001/sse"]
+
+[launch]
+mode = "separate"
+tmux_session_name = "agentbeats-browsergym"
+startup_interval = 1
+wait_for_services = true
