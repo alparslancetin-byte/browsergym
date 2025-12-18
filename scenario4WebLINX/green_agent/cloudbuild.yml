@@ -1,0 +1,16 @@
+steps:
+  - name: 'gcr.io/cloud-builders/git'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        chmod +x run.sh
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'builds',
+        'submit',
+        '--tag',
+        'gcr.io/browsergym-weblinx/weblinx-agent'
+      ]
